@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sboot.mserv.casestudy.callcenter.util.CallCenterConstants;
 
-//@JsonRootName("junior-executives")
 @JsonPropertyOrder({"idVal","timeTaken","callsAttended","rslvCalls","escCalls"})
 public class JuniorExecutiveDto implements Associate {
 	
