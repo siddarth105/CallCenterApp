@@ -18,7 +18,7 @@ import com.sboot.mserv.casestudy.callcenter.service.CallDetailServiceImpl;
 @Path("/rest")
 public class CallDetailResource {
 	
-	//TODO :: Set error code in the response and return, hide unwanted details in the DTO
+	//TODO :: Set error code in the response and return, validation for Z/X+Y
 	@Autowired
 	private CallDetailServiceImpl callDetailService;
 	
@@ -30,7 +30,6 @@ public class CallDetailResource {
 	@Produces("application/json")
 	public CallReport getCallDetails(CallDetails callDetails) {
 		this.log.info("CallDetailResource :: getCallDetails");
-		this.log.info("CallDetailId : " + callDetails.getCallDetailId());
 		CallReport callReport = callDetailService.getReport(callDetails);
 		return callReport;
 	}

@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.sboot.mserv.casestudy.callcenter.util.CallCenterConstants;
 
 @SuppressWarnings("unused")
 public class CallDetails {
+	
+	private final Log log = LogFactory.getLog(getClass());
 	
 	private int callDetailId;
 	private int numberOfCalls;
@@ -75,29 +80,34 @@ public class CallDetails {
 
 	private void validateAssocTime (Object callData, List<List<Integer>> assoList) {
 		
-		if(null != callData && callData.toString().contains(",")) {
-			List<String> indAssocLst = Arrays.asList(callData.toString().split(","));
-			List<Integer> indLst = new ArrayList<Integer>();
-			for (String time : indAssocLst) {
-				if (time.length() > 0 && time.matches(CallCenterConstants.NumberPattern)) {
-					indLst.add(Integer.parseInt(time));
-				} else {
-					System.out.println("Invalid Time Exception"); //TODO :: Throw an exception
-				}
+		if(null != callData){
+			List<String> assocStringLst = new ArrayList<String>();
+			List<Integer> timeIntegerLst = new ArrayList<Integer>();
+			if(callData.toString().contains(",")) {
+				assocStringLst = Arrays.asList(callData.toString().split(","));
+			} else {
+				assocStringLst.add(callData.toString());
 			}
-			assoList.add(indLst);
-		}
+			for (String time : assocStringLst) {
+				timeIntegerLst.add(Integer.parseInt(time));
+			}
+			assoList.add(timeIntegerLst);
+		} 
 	}
 	
 	private void validateManagerTime () {
 		
-		mgrLst = new ArrayList<Integer>();
-		List<String> indAssocLst = Arrays.asList(mgr.split(","));
-		for (String time:indAssocLst) {
-			if (time.length() > 0 && time.matches(CallCenterConstants.NumberPattern)) {
+		if (null != mgr) {
+			mgrLst = new ArrayList<Integer>();
+			List<String> indAssocLst = new ArrayList<String>();
+			if (mgr.contains(",")) {
+				indAssocLst = Arrays.asList(mgr.split(","));
+			} else {
+				indAssocLst.add(mgr);
+			}
+			
+			for (String time:indAssocLst) {
 				mgrLst.add(Integer.parseInt(time));
-			}  else {
-				System.out.println("Invalid Time Exception"); //TODO :: Throw an exception
 			}
 		}
 	}
