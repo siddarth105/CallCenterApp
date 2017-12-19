@@ -36,7 +36,7 @@ public class CallDetailServiceImpl implements CallDetailService{
 
 	@Override
 	public CallReport getReport(CallDetails callDetails) {
-		this.log.info("CallDetailServiceImpl :: generateReport");
+		this.log.info("CallDetailServiceImpl :: getReport");
 		
 		totalCalls = callDetails.getJeLst().size() + callDetails.getSeLst().size() + callDetails.getMgrLst().size();
 		List<Associate> juniorExecutiveList = populateAssLst(callDetails.getJeLst(), CallCenterConstants.JE, assocJeSLA);
