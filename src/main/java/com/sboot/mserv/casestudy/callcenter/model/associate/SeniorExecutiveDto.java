@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sboot.mserv.casestudy.callcenter.util.CallCenterConstants;
 
 @JsonPropertyOrder({"idVal","timeTaken","callsAttended","rslvCalls","escCalls"})
-public class SeniorExecutiveDto implements Associate {
+public class SeniorExecutiveDto extends AssocAbsClass {
 	
 	private int id;
 	private String idVal;
@@ -69,4 +69,8 @@ public class SeniorExecutiveDto implements Associate {
 		this.timeTaken = timeTaken;
 	}
 	
+	@JsonIgnore
+	public boolean canAcceptCall() {
+		return callsAttended < callThreshold;
+	}
 }

@@ -32,28 +32,41 @@ public class CallDetailServiceImpl implements CallDetailService{
 	
 	Associate asc = null;
 	int reslv, escl, id, timeTaken;
-	int totalReslvCalls, totalEsclCalls, totalTimeTaken, totalCalls;
+	int totalReslvCalls, totalEsclCalls, totalTimeTaken, totalCalls, numOfCalls;
 
 	@Override
 	public CallReport getReport(CallDetails callDetails) {
 		this.log.info("CallDetailServiceImpl :: getReport");
-		
-		totalCalls = callDetails.getJeLst().size() + callDetails.getSeLst().size() + callDetails.getMgrLst().size();
-		List<Associate> juniorExecutiveList = populateAssLst(callDetails.getJeLst(), CallCenterConstants.JE, assocJeSLA);
-		List<Associate> seniorExecutiveList = populateAssLst(callDetails.getSeLst(), CallCenterConstants.SE, assocSeSLA);
+		totalCalls = getNumberOfCall(callDetails.getJeLst()) + getNumberOfCall(callDetails.getSeLst()) + callDetails.getMgrLst().size();
+		int callThreshold = totalCalls / (callDetails.getJeLst().size() + callDetails.getSeLst().size());
+		this.log.info("totalCalls :: " + totalCalls);
+		this.log.info("callThreshold :: " + callThreshold);
+		List<Associate> juniorExecutiveList = populateAssLst(callDetails.getJeLst(), CallCenterConstants.JE, assocJeSLA, callThreshold);
+		List<Associate> seniorExecutiveList = populateAssLst(callDetails.getSeLst(), CallCenterConstants.SE, assocSeSLA, callThreshold);
 		ManagerDto mgrDto = populateMgrDto(callDetails.getMgrLst());
 	
 		CallReport callReport = generateReport(juniorExecutiveList, seniorExecutiveList, mgrDto);
 		return callReport;
 	}
 	
-	private List<Associate> populateAssLst(List<List<Integer>> ascLst, String associateType, int assocSla) {
+	private int getNumberOfCall (List<List<Integer>> assocLst) {
+		numOfCalls = 0;
+		assocLst.forEach(lst -> {
+			numOfCalls = lst.size() + numOfCalls;
+			});
+		
+		return numOfCalls;
+	}
+	
+	
+	private List<Associate> populateAssLst(List<List<Integer>> ascLst, String associateType, int assocSla, int callThreshold) {
 		
 		List<Associate> empLst = new ArrayList<Associate>();
 		id = 0;
 		ascLst.forEach(jeLst -> {
-			asc = AssociateFactory.getAssociate(associateType);
 			reslv = 0; escl = 0; timeTaken = 0;
+			asc = AssociateFactory.getAssociate(associateType, callThreshold);
+			asc.setCallsAttended(jeLst.size());
 			jeLst.forEach(time -> {
 				if (time <= assocSla) {
 					reslv++;
@@ -68,7 +81,6 @@ public class CallDetailServiceImpl implements CallDetailService{
 			asc.setEscCalls(escl);
 			asc.setRslvCalls(reslv);
 			asc.setId(id++);
-			asc.setCallsAttended(jeLst.size());
 			asc.setTimeTaken(timeTaken);
 			empLst.add(asc);
 		});
