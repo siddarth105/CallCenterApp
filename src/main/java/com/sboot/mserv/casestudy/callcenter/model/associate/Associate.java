@@ -1,7 +1,10 @@
 package com.sboot.mserv.casestudy.callcenter.model.associate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public interface Associate {
 	
+	@JsonIgnore
 	int getId();
 	void setId(int id);
 	
@@ -18,5 +21,10 @@ public interface Associate {
 	
 	int getTimeTaken();
 	void setTimeTaken(int timeTaken);
+	
+	public int getCallThreshold();
+	public void setCallThreshold(int callThreshold);
+	
+	public boolean canAcceptCall();
 	
 }
