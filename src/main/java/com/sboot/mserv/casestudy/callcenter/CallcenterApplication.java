@@ -5,12 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ImportResource;
 
-
-/*@Configuration
-@EnableAutoConfiguration
-@ComponentScan({"com.sboot.mserv.casestudy.callcenter.resource"})*/
 @SpringBootApplication(exclude = {EmbeddedServletContainerAutoConfiguration.class})
+@ImportResource("classpath:/application-context.xml")  // application-context.xml is not required when ApplicationStartupListener is annotated with @Component
 public class CallcenterApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
