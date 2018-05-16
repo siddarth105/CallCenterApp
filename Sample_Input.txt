@@ -1,8 +1,9 @@
 URL				->	http://localhost:8080/rest/getCallDetails
-
+					http://localhost:8080/callcenter/rest/getCallDetails
+					
 METHOD 			-> POST
 
-HEADER 			-> Accet:application/json, Content-Type: application/json
+HEADER 			-> Accept:application/json, Content-Type: application/json
  
 SAMPLE JSON		->
 					{
@@ -22,3 +23,13 @@ SAMPLE JSON		->
 						],
 						"mgr": "20,12,25,13,20,3,3,3,9,2,7,1,7,11,10"
 					}
+					
+------------------------------------------------------------------------------------------------------------------------
+Docker :-
+------------------------------------------------------------------------------------------------------------------------
+Enter the SpringBoot folder in local machine and then run
+	docker build -f Dockerfile -t springboot/callcenter .		
+	
+	docker run -P -d --name callcenter springboot/callcenter
+	docker run -P -d --name callcenter --link cassandra springboot/callcenter			 
+------------------------------------------------------------------------------------------------------------------------

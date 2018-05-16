@@ -7,8 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class ApplicationStartupListener implements ApplicationListener<ContextRefreshedEvent> {
 
 	private final Log log = LogFactory.getLog(getClass());
